@@ -4,10 +4,14 @@ Code and data for analysis of peaks and plateaus in performance for high school 
 The repository includes 4 data sets and 4 .R code files to analyze each data set. Data were gathered from Athletic.net for 4A - 6A high schools in Texas. "clean" data are those for which missing values are imputed or eliminated and the minutes:seconds format has been converted to seconds. Additional columns for the event and gender of runner have also been added.
 
 # Data sets are 
-track1600clean.csv - clean data for 1600m runners
+track1600clean.csv - clean data for 1600m runners 
+
 track800clean.csv - clean data for 800m runners
+
 track400clean.csv - clean data for 400m runners
+
 track200clean.csv - clean data for 200m runners
+
 
 # Code for obtaining visualizations, loess curves, mixed model analysis, and bootstrap sampling distributions
 analysis200m.R
