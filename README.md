@@ -15,12 +15,20 @@ track200clean.csv - clean data for 200m runners
 
 # Code for obtaining visualizations, loess curves, mixed model analysis, and bootstrap sampling distributions
 analysis200m.R
+
 analysis400m.R
+
 analysis800m.R
+
 analysis1600m.R
+
 
 # Code for obtaining longitudinal curve clusters using kmlShape
 curveClustering200.R
+
 curveClustering400.R
+
 curveClustering800.R
+
 curveClustering1600.R
+
