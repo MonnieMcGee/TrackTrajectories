@@ -429,3 +429,8 @@ mixeda = lmer(BestTime ~ Gender*Grade + Gender*Event + (1 | Name), data = fourYe
 summary(mixeda)
 confint(mixeda)
 
+#Stratified analysis by gender
+girlsTimes = fourYearslong%>%filter(Gender=="F")
+boysTimes = fourYearslong%>%filter(Gender=="M")
+mixed_girl = lmer(BestTime ~ Grade + Event + (1 | Name), data = girlsTimes)
+mixed_boy = lmer(BestTime ~ Grade + Event + (1 | Name), data = boysTimes)
