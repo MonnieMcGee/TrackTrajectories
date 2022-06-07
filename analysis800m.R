@@ -107,13 +107,14 @@ fourYears800long <- fourYears800 %>%
   pivot_longer(!c(Name, School, Gender, PRGrade, PR, BestYear),
                names_to = "Grade", values_to="BestTime")
 
+png("AllTraj800_font.png")
 ggplot(data=fourYears800long) +
   geom_line(size=1,show.legend=FALSE,aes(x=as.numeric(Grade),y=BestTime,color=Name)) + 
   scale_color_grey(start=0.8,end=0.2) + scale_y_reverse(limits=c(170,110)) + 
   facet_wrap(~Gender,nrow=2, strip.position = "left") + theme_bw() +
   labs(x="Grade",y="Best Time (in seconds)",title="Best Times in 800m by Grade")
 # Saved as "AllTraj800.png" in Track Trajectories directory.
-
+dev.off()
 ################################# Analysis for Boys ########################################
 boy800m = fourYears800 %>%
      filter(Gender=='Mens')
@@ -184,12 +185,14 @@ ggplot(data=diff800)+geom_boxplot(aes(x=Gender,y=Range1,fill=Gender))+labs(x="Ge
 # I need Gender, Range4 - Range1, PR, and PRGrade
 delt800 <- diff800 %>% select(c(Name, Gender,PR:Range1))
 delt800Long <- delt800 %>% pivot_longer(Range4:Range1, names_to = "GradeRange", values_to = "Difference")
+png("DiffTimeGrade_1600.png")
 ggplot(data=delt800Long)+geom_boxplot(aes(x=GradeRange,y=Difference,fill=Gender)) +
   scale_fill_manual(values=brewer.pal(3,"PiYG"), labels = c("Boys", "Girls")) +
   scale_x_discrete(labels = c("10 to 9", "11 to 10", "12 to 11","12 to 9")) +
   theme_bw() + theme(legend.position="bottom",axis.title.x = element_blank()) + 
   ylab("Difference in Time between Grades (in seconds)") + 
   ggtitle("Difference in Time for Consecutive Grades (800m)")
+dev.off()
 ggplot(data=delt800Long)+geom_boxplot(aes(x=Gender,y=Difference,fill=GradeRange)) +
   scale_fill_manual(values=brewer.pal(4,"PuBu"), labels = c("10 to 9", "11 to 10", "12 to 11","12 to 9")) +
   theme_bw() + theme(legend.position="bottom",axis.title.x = element_blank()) + 
@@ -223,8 +226,9 @@ ggplot(peak800)+geom_bar(aes(x=BestYear,fill=Gender,y=Percent),position='dodge',
 g1 = ggplot(data=fourYears800,aes(x=BestYear, y=PR)) + scale_y_reverse() + geom_point() + 
   facet_wrap(vars(Gender)) + labs(x="Grade",y="Time",title="Time for the 800m (in seconds)")  + 
   theme_bw()
-g1 + geom_smooth(method = "loess", method.args = list(degree=1)) 
-
+png("Loess800_font.png")
+g1 + geom_smooth(method = "loess", method.args = list(degree=1))+theme(plot.title=element_text(size=15),axis.title=element_text(size=12))
+dev.off()
 ##### Notes
 # Suppose that between time 1 and 2, an intervention occurred, and we wish to fit a piecewise 
 # linear model rather than an overall smooth. We can do this by creating a dummy variable 
@@ -299,12 +303,13 @@ slopes800 = data.frame("Slope"=c(boySlope800,boySlope800a,boySlope800b,girlSlope
 gmeans <- slopes800 %>% group_by(Gender, Grade) %>% summarise(mean = mean(Slope,na.rm=T))
 gmeans$mean <- sprintf("Mean Slope = %.2f", gmeans$mean)
 gmeans
+png("DiffMeanTimes800_font.png")
 ggplot(data=slopes800,aes(x=Slope)) + 
   geom_histogram(bins=100) + 
   labs(title="Differences in Mean Times for 800m by Gender and Grade", x="Difference in Mean Times", y='Count') + 
-  facet_grid(Grade~Gender) + theme(legend.position = 'none') +
+  facet_grid(Grade~Gender) + theme(legend.position = 'none',plot.title=element_text(size=15),axis.title=element_text(size=12)) +
   geom_text(x = -4.5, y = 225, aes(label = mean), data = gmeans)
-
+dev.off()
 # Gender Grade mean              
 # 1 F         10 Mean Slope = -2.91
 # 2 F         11 Mean Slope = -2.57

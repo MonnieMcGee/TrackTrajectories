@@ -70,7 +70,7 @@ trajMeans800k4both %>% ggplot( aes(x=times, y=traj, group=iCenters, color=Gender
   scale_color_manual(values=c("#CC6666", "#9999CC")) + facet_wrap(~Gender) +
   ggtitle("Clusters of Time Trajectories for 800 meters") + theme_bw() +
   ylab("Time (in seconds)") +
-  xlab("Year of High School")
+  xlab("Year of High School")+theme(plot.title=element_text(size=15),axis.title=element_text(size=12))
 
 
 # Problem: If variances of clusters are different, then k-means clustering will not work.

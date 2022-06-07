@@ -107,12 +107,14 @@ fourYears1600long <- fourYears1600 %>%
   pivot_longer(!c(Name, School, Gender, PRGrade, PR, BestYear),
                names_to = "Grade", values_to="BestTime")
 
+png("AllTraj1600_font.png")
 ggplot(data=fourYears1600long) +
   geom_line(size=1,show.legend=FALSE,aes(x=as.numeric(Grade),y=BestTime,color=Name)) + 
   scale_color_grey(start=0.8,end=0.2) + scale_y_reverse(limits=c(440,240)) + 
   facet_wrap(~Gender,nrow=2, strip.position = "left") + theme_bw() +
-  labs(x="Grade",y="Best Time (in seconds)",title="Best Times in 1600m by Grade")
+  labs(x="Grade",y="Best Time (in seconds)",title="Best Times in 1600m by Grade")+theme(plot.title=element_text(size=15),axis.title=element_text(size=12))
 # Saved as "AllTraj1600.png" in Track Trajectories directory.
+dev.off()
 
 ################################# Analysis for Boys ########################################
 boy1600m = fourYears1600 %>%
@@ -184,17 +186,19 @@ ggplot(data=diff1600)+geom_boxplot(aes(x=Gender,y=Range1,fill=Gender))+labs(x="G
 # I need Gender, Range4 - Range1, PR, and PRGrade
 delt1600 <- diff1600 %>% select(c(Name, Gender,PR:Range1))
 delt1600Long <- delt1600 %>% pivot_longer(Range4:Range1, names_to = "GradeRange", values_to = "Difference")
+png("DiffTimeGrade1600_font.png")
 ggplot(data=delt1600Long)+geom_boxplot(aes(x=GradeRange,y=Difference,fill=Gender)) +
 scale_fill_manual(values=brewer.pal(3,"PuBu"), labels = c("Boys", "Girls")) +
 scale_x_discrete(labels = c("10 to 9", "11 to 10", "12 to 11","12 to 9")) +
 theme_bw() + theme(legend.position="bottom",axis.title.x = element_blank()) +
 ylab("Difference in Time between Grades (in seconds)") +
-ggtitle("Difference in Time for Consecutive Grades (1600m)")
+ggtitle("Difference in Time for Consecutive Grades (1600m)")+theme(plot.title=element_text(size=15),axis.title=element_text(size=12))
+dev.off()
 ggplot(data=delt1600Long)+geom_boxplot(aes(x=Gender,y=Difference,fill=GradeRange)) +
   scale_fill_manual(values=brewer.pal(4,"PuBu"), labels = c("10 to 9", "11 to 10", "12 to 11","12 to 9")) +
   theme_bw() + theme(legend.position="bottom",axis.title.x = element_blank()) + 
   ylab("Difference in Time between Grades (in seconds)") + 
-  ggtitle("Difference in Time for Consecutive Grades (1600m)")
+  ggtitle("Difference in Time for Consecutive Grades (1600m)")+theme(plot.title=element_text(size=15),axis.title=element_text(size=12))
 
 # Create bar graph to show which grade was peak performance for 1600m by percentage
 # Start here - variables and data sets need changing
@@ -218,10 +222,12 @@ ggplot(peak1600)+geom_bar(aes(x=BestYear,fill=Gender,y=Percent),position='dodge'
 # p + facet_wrap(vars(class))
 
 ## Code below not working. How do I plot multiple loess curves, one for each athlete, on each panel?
-# g1 = ggplot(data=fourYears1600,aes(x=BestYear, y=PR)) + scale_y_reverse() + geom_point() + 
-#  facet_wrap(vars(Gender)) + labs(x="Grade",y="Time",title="Time for the 1600m (in seconds)")  + 
-#  theme_bw()
-# g1 + geom_smooth(method = "loess", method.args = list(degree=1)) 
+ g1 = ggplot(data=fourYears1600,aes(x=BestYear, y=PR)) + scale_y_reverse() + geom_point() + 
+  facet_wrap(vars(Gender)) + labs(x="Grade",y="Time",title="Time for the 1600m (in seconds)")  + 
+  theme_bw()+theme(plot.title=element_text(size=15),axis.title=element_text(size=12))
+png("Loess1600_font.png")
+ g1 + geom_smooth(method = "loess", method.args = list(degree=1)) 
+dev.off()
 
 ## Boostrap for slopes
 nsims = 1000
@@ -281,12 +287,13 @@ slopes1600 = data.frame("Slope"=c(boySlope1600,boySlope1600a,boySlope1600b,girlS
 gmeans <- slopes1600 %>% group_by(Gender, Grade) %>% summarise(mean = mean(Slope,na.rm=T))
 gmeans$mean <- sprintf("Mean Slope = %.2f", gmeans$mean)
 gmeans
+png("DiffMeanTimes1600_font.png")
 ggplot(data=slopes1600,aes(x=Slope)) + 
   geom_histogram(bins=100) + 
   labs(title="Differences in Mean Times for 1600m by Gender and Grade", x="Difference in Mean Times", y='Count') + 
-  facet_grid(Grade~Gender) + theme(legend.position = 'none') +
+  facet_grid(Grade~Gender) + theme(legend.position = 'none',plot.title=element_text(size=15),axis.title=element_text(size=12)) +
   geom_text(x = -8, y = 250, aes(label = mean), data = gmeans)
-
+dev.off()
 #geom_vline(linetype='longdash', data=subset(slopes200,slopes200$Gender=='F'),aes(xintercept=mean(Slope),color="red")) + 
 #geom_vline(linetype='longdash',data=subset(slopes200, slopes200$Gender=='M'),aes(xintercept=mean(Slope),color="red")) + 
 
