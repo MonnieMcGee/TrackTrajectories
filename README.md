@@ -5,32 +5,7 @@ The repository includes 4 data sets and 4 .R code files to analyze each data set
 
 A manuscript using these data has been submitted for publication. If you use these data, please cite this repository.
 
-# Data sets are 
-track1600clean.csv - clean data for 1600m runners 
+Graphics in this folder are from an older version of the paper that has been revised. Please go to the Code, Data, and Graphics folders for revised code, data and graphics.
 
-track800clean.csv - clean data for 800m runners
-
-track400clean.csv - clean data for 400m runners
-
-track200clean.csv - clean data for 200m runners
-
-
-# Code for obtaining visualizations, loess curves, mixed model analysis, and bootstrap sampling distributions
-analysis200m.R
-
-analysis400m.R
-
-analysis800m.R
-
-analysis1600m.R
-
-
-# Code for obtaining longitudinal curve clusters using kmlShape
-curveClustering200.R
-
-curveClustering400.R
-
-curveClustering800.R
-
-curveClustering1600.R
+The folder "Old Files" contains code and graphis from the first version of the paper.
 
