@@ -3,5 +3,4 @@ Code for analysis of peaks and plateaus in performance for high school track ath
 
 Graphics in this folder are from an older version of the paper that has been revised. Please go to the Code, Data, and Graphics folders for revised code, data and graphics.
 
-The folder "Old Files" contains code and graphis from the first version of the paper.
 
